@@ -28,7 +28,7 @@ defmodule Passport.Mixfile do
     applications(:prod) ++ [:logger, :ecto, :postgrex]
   end
   defp applications(_) do
-    [:crypto]
+    [:crypto, :plug]
   end
 
   # Dependencies can be Hex packages:
@@ -42,6 +42,7 @@ defmodule Passport.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:plug, "~> 1.0"},
       {:ecto, "~> 1.0", only: :test},
       {:postgrex, ">= 0.0.0", only: :test}
     ]

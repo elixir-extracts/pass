@@ -30,6 +30,9 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 if Mix.env == :test do
+  # Print only warnings and errors during test
+  config :logger, level: :warn
+
   # Configure your database
   config :passport, Passport.Test.Repo,
     adapter: Ecto.Adapters.Postgres,
