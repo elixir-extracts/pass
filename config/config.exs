@@ -46,4 +46,8 @@ if Mix.env == :test do
   config :passport, Passport.Hash,
     blocks: 1,
     cost: 1
+
+  config :passport, Passport.DataStore.EctoAdapter,
+    repo:   Passport.Test.Repo,
+    schema: Passport.Test.User
 end

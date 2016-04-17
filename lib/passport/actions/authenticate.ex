@@ -1,14 +1,12 @@
 defmodule Passport.Authenticate do
   alias Plug.Conn
   alias Passport.Hash
-  alias Passport.Test.Repo
-  alias Passport.Test.User
 
   @config Application.get_env(:passport, __MODULE__, %{})
-  @session_ttl @config[:session_ttl] || (60 * 60 * 2)
+  @session_ttl @config[:session_ttl] || (60 * 60 * 8)
 
-  def credentials(conn, username, password) do
-    Repo.get_by(User, username: username)
+  def credentials(conn, identity, password) do
+    Passport.DataStore.adapter.get_by_identity(identity)
     |> verify_user_credentials(password)
     |> create_session_for(conn)
   end
@@ -26,16 +24,16 @@ defmodule Passport.Authenticate do
   end
 
   defp verify_user_credentials(nil, _), do: nil
-  defp verify_user_credentials(%User{} = user, password) do
-    if Hash.verify(password, user.password), do: user, else: nil
+  defp verify_user_credentials(%{password: hash} = user, password) do
+    if Hash.verify(password, hash), do: user, else: nil
   end
 
   defp create_session_for(nil, %Conn{} = conn) do
     delete_session conn
   end
-  defp create_session_for(%User{} = user, %Conn{} = conn) do
+  defp create_session_for(%{id: user_id}, %Conn{} = conn) do
     conn
-    |> Conn.put_session(:user_id, user.id)
+    |> Conn.put_session(:user_id, user_id)
     |> Conn.put_session(:password_auth_at, :os.system_time(:seconds))
     |> Conn.put_session(:session_auth_at, nil)
   end
