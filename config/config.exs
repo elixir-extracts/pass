@@ -28,3 +28,19 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+if Mix.env == :test do
+  # Configure your database
+  config :passport, Passport.Test.Repo,
+    adapter: Ecto.Adapters.Postgres,
+    username: "postgres",
+    password: "postgres",
+    database: "passport_test",
+    hostname: "localhost",
+    pool: Ecto.Adapters.SQL.Sandbox
+
+  # Let's keep tests fast with quick passwords
+  config :passport, Passport.Hash,
+    blocks: 1,
+    cost: 1
+end

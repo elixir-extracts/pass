@@ -5,6 +5,7 @@ defmodule Passport.Mixfile do
     [app: :passport,
      version: "0.0.1",
      elixir: "~> 1.2",
+     elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -14,7 +15,20 @@ defmodule Passport.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    # Specify applications based on environment
+    [applications: applications(Mix.env)]
+  end
+
+
+  # Specifies which paths to compile per environment
+  defp elixirc_paths(:test), do: ["test/support"] ++ elixirc_paths(:prod)
+  defp elixirc_paths(_),     do: ["lib"]
+
+  defp applications(:test) do
+    applications(:prod) ++ [:logger, :ecto, :postgrex]
+  end
+  defp applications(_) do
+    [:crypto]
   end
 
   # Dependencies can be Hex packages:
@@ -27,6 +41,9 @@ defmodule Passport.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:ecto, "~> 1.0", only: :test},
+      {:postgrex, ">= 0.0.0", only: :test}
+    ]
   end
 end
