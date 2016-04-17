@@ -3,16 +3,17 @@ defmodule Passport.Mixfile do
 
   def project do
     [app: :passport,
-     version: "0.0.1",
+     version: "0.1.0",
+     description: "A simple authentication manager for Plug applications.",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+     package: package]
   end
 
   # Configuration for the OTP application
-  #
   # Type "mix help compile.app" for more information
   def application do
     # Specify applications based on environment
@@ -31,20 +32,22 @@ defmodule Passport.Mixfile do
     [:crypto, :plug]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
+  # Type "mix help deps" for examples and options
   defp deps do
     [
       {:plug, "~> 1.0"},
       {:ecto, "~> 1.0", only: :test},
       {:postgrex, ">= 0.0.0", only: :test}
+    ]
+  end
+
+  defp package do
+    [
+      # Don't want to include "priv" which is included by default
+      files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Brad Lindsay"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/elixir-extracts/passport"}
     ]
   end
 end
