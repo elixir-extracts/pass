@@ -37,7 +37,9 @@ defmodule Passport.Mixfile do
     [
       {:plug, "~> 1.0"},
       {:ecto, "~> 1.0", only: :test},
-      {:postgrex, ">= 0.0.0", only: :test}
+      {:postgrex, ">= 0.0.0", only: :test},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.11", only: :dev}
     ]
   end
 
