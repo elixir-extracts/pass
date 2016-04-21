@@ -1,20 +1,34 @@
 defmodule Passport.Authenticate do
+  @moduledoc """
+  Implements methods for adding and validating session state for a connection.
+  """
   alias Plug.Conn
   alias Passport.Hash
 
   @config Application.get_env(:passport, __MODULE__, %{})
   @session_ttl @config[:session_ttl] || (60 * 60 * 8)
 
+  @doc """
+  Sets up and returns a connection with the session data of a user in the data
+  store that matches the provided credentials. If no such match exists, it
+  clears out the session.
+  """
   def credentials(conn, identity, password) do
     Passport.DataStore.adapter.get_by_identity(identity)
     |> verify_user_credentials(password)
     |> create_session_for(conn)
   end
 
+  @doc """
+  Extend valid sessions, or clear out invalid ones.
+  """
   def session(conn) do
     conn |> delete_or_extend_session
   end
 
+  @doc"""
+  Returns true if the session is still valid, otherwise false.
+  """
   def session_valid?(conn) do
     @session_ttl >= :os.system_time(:seconds) - (
       Conn.get_session(conn, :session_auth_at)  ||

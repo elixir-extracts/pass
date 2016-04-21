@@ -19,7 +19,7 @@ defmodule Passport.Plugs do
 
     pipeline ::require_auth do
       # Passport.Plugs function
-      plug :require_authentication
+      plug :require_authentication, redirect_to: "/login"
     end
   end
   ```

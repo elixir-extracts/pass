@@ -1,4 +1,9 @@
 defmodule Passport.DataStore.EctoAdapter do
+  @moduledoc """
+  Implements the abstract data storage methods that Passport relies on for the
+  Ecto library.
+  """
+
   @config Application.get_env(:passport, __MODULE__, %{})
   @repo   @config[:repo]
   @schema @config[:schema]
@@ -7,7 +12,11 @@ defmodule Passport.DataStore.EctoAdapter do
   @identity_field @config[:identity_field] || :username
   @password_field @config[:password_field] || :password
 
-	def get_by_identity(identity) do
+  @doc """
+  Returns a map of the id and password string stored in the database for the
+  specified identity field (eg. username).
+  """
+  def get_by_identity(identity) do
     @repo.get_by(@schema, [{@identity_field, identity}])
     |> user_map_or_nil
   end
