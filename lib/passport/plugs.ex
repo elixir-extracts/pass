@@ -37,7 +37,8 @@ defmodule Passport.Plugs do
   end
 
   @doc """
-  Redirects to sign in path if the current authentication session isn't valid
+  Ensures the current session is valid. If not, returns a 401 or redirects to
+  the path specfied to byt the `:redirect_to` option.
   """
   def require_authentication(%Plug.Conn{} = conn, %{} = opts) do
     cond do
@@ -47,13 +48,19 @@ defmodule Passport.Plugs do
         conn
         |> put_session(:redirect_url, conn.request_path)
         |> put_resp_header("Location", redirect_path)
-        |> put_status(302)
+        |> send_resp(302, "")
         |> halt
       true ->
         conn
-        |> put_status(401)
+        |> set_content_type(opts[:content_type])
+        |> send_resp(401, Map.get(opts, :body, ""))
         |> halt
     end
   end
   def require_authentication(conn, _opts), do: require_authentication(conn, %{})
+
+  defp set_content_type(conn, nil), do: conn
+  defp set_content_type(conn, value) when is_binary(value) do
+    put_resp_header(conn, "Content-Type", value)
+  end
 end
