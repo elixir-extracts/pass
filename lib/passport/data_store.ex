@@ -9,6 +9,11 @@ defmodule Passport.DataStore do
       Takes in the identity value to lookup in the data store and returns a map
       of the corresponding ID and hashed password string if it finds a matching
       identity, otherwise it returns nil.
+
+  - get/1
+
+      Retrieves the user information from the data store based on the specified
+      id. If no user information is found, then return nil.
   """
 
   @config Application.get_env(:passport, __MODULE__, %{})

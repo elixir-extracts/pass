@@ -21,6 +21,13 @@ defmodule Passport.DataStore.EctoAdapter do
     |> user_map_or_nil
   end
 
+  @doc """
+  Returns the user with the specified ID or nil if the user can't be found.
+  """
+  def get(id) do
+    @repo.get(@schema, id)
+  end
+
   defp user_map_or_nil(nil), do: nil
   defp user_map_or_nil(user) do
     %{id: Map.get(user, @id_field), password: Map.get(user, @password_field)}

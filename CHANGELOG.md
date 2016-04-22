@@ -1,5 +1,22 @@
 # Change Log
 
+## Unreleased
+
+### Added
+
+- The ability to skip looking up the user in the data storage when using the
+  `require_authentication` plug. (This was accidentaly the default behavior in
+  previous releases.)
+
+- The `require_authentication` plug now stashes the current user data in the
+  connection with `assign(:current_user)`.
+
+### Fixed
+
+- When using the `require_authentication` plug, it now checks that the user
+  hasn't been deleted from the data store.
+
+
 ## 0.1.1  (2016-04-20)
 
 ### Added

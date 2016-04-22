@@ -32,18 +32,25 @@ defmodule Passport.Plugs do
   @doc """
   Extends a valid authentication session or clears that data.
   """
-  def authenticate_session(%Plug.Conn{} = conn, _options) do
+  def authenticate_session(%Plug.Conn{} = conn, _ops) do
     Authenticate.session(conn)
   end
 
   @doc """
   Ensures the current session is valid. If not, returns a 401 or redirects to
-  the path specfied to byt the `:redirect_to` option.
+  the path specfied to by the `:redirect_to` option.
+
+  If the session is valid, the current user will be retrieved and stored in the
+  connection struct. If this is not desirable, the `:skip_user_lookup` option
+  can be set to `true`. BE CAREFUL when doing this as then it doesn't ensure
+  that the user hasn't been deleted
   """
   def require_authentication(%Plug.Conn{} = conn, %{} = opts) do
+    user = nil
     cond do
-      Authenticate.session_valid?(conn) ->
-        conn
+      Authenticate.session_valid?(conn) &&
+      (opts[:skip_user_lookup] || (user = Passport.DataStore.adapter.get(get_session(conn, :user_id))) != nil) ->
+        assign(conn, :current_user, user)
       redirect_path = Map.get(opts, :redirect_to) ->
         conn
         |> put_session(:redirect_url, conn.request_path)
