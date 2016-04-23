@@ -4,6 +4,11 @@ defmodule Passport.DataStore do
   used by Passport. Modules wishing to be adapters must implement the following
   functions:
 
+  - confirm_email/1
+
+      Takes in an email address and sets the email confirmed field to true for
+      the user with the specfied email.
+
   - get/1
 
       Retrieves the user information from the data store based on the specified
@@ -24,6 +29,11 @@ defmodule Passport.DataStore do
       Takes in an email address and a new password. It then updates the password
       of the user with that email address and clears the password reset token
       attribute.
+
+  - valid_email?/1
+
+      Takes in a value and returns true if that value exists as an email for a
+      user in the data store, otherwise it returns false.
 
   - valid_password_reset_token?/2
 

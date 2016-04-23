@@ -7,6 +7,8 @@
 - Can now generate, verify, and redeem password reset tokens to allow users to
   reset their password securely.
 
+- Can now generate, verify, and redeem email confirmation tokens.
+
 - The ability to skip looking up the user in the data storage when using the
   `require_authentication` plug. (This was accidentally the default behavior in
   previous releases.)

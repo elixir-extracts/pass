@@ -13,6 +13,7 @@ defmodule Passport.DataStore.EctoAdapter do
   @password_field             @config[:password_field]             || :password
   @email_field                @config[:email_field]                || :email
   @password_reset_token_field @config[:password_reset_token_field] || :password_reset_token
+  @email_confirmed_field      @config[:email_confirmed_field]      || :email_confirmed
 
   @doc """
   Returns a map of the id and password string stored in the database for the
@@ -58,6 +59,25 @@ defmodule Passport.DataStore.EctoAdapter do
     changeset = @schema.changeset(
       user_by_email(email),
       %{@password_field => password, @password_reset_token_field => nil}
+    )
+    @repo.update!(changeset)
+  end
+
+  @doc """
+  Returns true if the email address referenes a user in the data store,
+  otherwise it returns false
+  """
+  def valid_email?(email) do
+    user_by_email(email) != nil
+  end
+
+  @doc """
+  Sets the email confirmed field to true for the user with the specfied email.
+  """
+  def confirm_email(email) do
+    changeset = @schema.changeset(
+      user_by_email(email),
+      %{@email_confirmed_field => true}
     )
     @repo.update!(changeset)
   end
