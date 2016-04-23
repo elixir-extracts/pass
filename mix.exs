@@ -3,7 +3,7 @@ defmodule Passport.Mixfile do
 
   def project do
     [app: :passport,
-     version: "0.1.1",
+     version: "0.2.0",
      description: "A simple authentication manager for Plug applications.",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
