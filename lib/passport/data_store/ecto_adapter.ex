@@ -8,9 +8,11 @@ defmodule Passport.DataStore.EctoAdapter do
   @repo   @config[:repo]
   @schema @config[:schema]
 
-  @id_field       @config[:id_field]       || :id
-  @identity_field @config[:identity_field] || :username
-  @password_field @config[:password_field] || :password
+  @id_field                   @config[:id_field]                   || :id
+  @identity_field             @config[:identity_field]             || :username
+  @password_field             @config[:password_field]             || :password
+  @email_field                @config[:email_field]                || :email
+  @password_reset_token_field @config[:password_reset_token_field] || :password_reset_token
 
   @doc """
   Returns a map of the id and password string stored in the database for the
@@ -26,6 +28,43 @@ defmodule Passport.DataStore.EctoAdapter do
   """
   def get(id) do
     @repo.get(@schema, id)
+  end
+
+  @doc """
+  Stashes the password reset token so we can prevent replay attacks
+  """
+  def set_password_reset_token(email, token) do
+    user      = user_by_email(email)
+    changeset = @schema.changeset(user, %{@password_reset_token_field => token})
+    @repo.update!(changeset)
+  end
+
+  @doc """
+  Returns true if a user with the specified email address and password reset
+  token can be found. Otherwise it returns false.
+  """
+  def vaild_password_reset_token?(email, token) do
+    Map.get(
+      user_by_email(email) || %{},
+      @password_reset_token_field
+    ) == token
+  end
+
+  @doc """
+  Updates the password with the specified value and clears out the password
+  reset token.
+  """
+  def update_password_for(email, password) do
+    changeset = @schema.changeset(
+      user_by_email(email),
+      %{@password_field => password, @password_reset_token_field => nil}
+    )
+    @repo.update!(changeset)
+  end
+
+
+  defp user_by_email(email) do
+    @repo.get_by(@schema, [{@email_field, email}])
   end
 
   defp user_map_or_nil(nil), do: nil

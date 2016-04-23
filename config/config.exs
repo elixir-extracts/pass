@@ -49,5 +49,9 @@ if Mix.env == :test do
 
   config :passport, Passport.DataStore.EctoAdapter,
     repo:   Passport.Test.Repo,
-    schema: Passport.Test.User
+    schema: Passport.Test.User,
+    password_reset_token_field: :passwordResetToken
+
+  config :passport, Passport.ResetPassword,
+    key: "aaod82fjalv02444nod82fjalv02444n"
 end

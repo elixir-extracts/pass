@@ -4,8 +4,11 @@
 
 ### Added
 
+- Can now generate, verify, and redeem password reset tokens to allow users to
+  reset their password securely.
+
 - The ability to skip looking up the user in the data storage when using the
-  `require_authentication` plug. (This was accidentaly the default behavior in
+  `require_authentication` plug. (This was accidentally the default behavior in
   previous releases.)
 
 - The `require_authentication` plug now stashes the current user data in the

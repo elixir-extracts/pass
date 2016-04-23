@@ -36,6 +36,8 @@ defmodule Passport.Mixfile do
   defp deps do
     [
       {:plug, "~> 1.0"},
+      {:json_web_token, "~> 0.2"},
+
       {:ecto, "~> 1.0", only: :test},
       {:postgrex, ">= 0.0.0", only: :test},
       {:earmark, "~> 0.1", only: :dev},
