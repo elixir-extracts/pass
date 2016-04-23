@@ -19,6 +19,8 @@
 - When using the `require_authentication` plug, it now checks that the user
   hasn't been deleted from the data store.
 
+- Lower-cased the Location HTTP header key to keep Plug from throwing an error.
+
 
 ## 0.1.1  (2016-04-20)
 

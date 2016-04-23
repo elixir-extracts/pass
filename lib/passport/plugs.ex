@@ -54,7 +54,7 @@ defmodule Passport.Plugs do
       redirect_path = Map.get(opts, :redirect_to) ->
         conn
         |> put_session(:redirect_url, conn.request_path)
-        |> put_resp_header("Location", redirect_path)
+        |> put_resp_header("location", redirect_path)
         |> send_resp(302, "")
         |> halt
       true ->
