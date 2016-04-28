@@ -3,7 +3,7 @@ defmodule Pass.Mixfile do
 
   def project do
     [app: :pass,
-     version: "0.2.0",
+     version: "0.3.0",
      description: "A simple authentication manager for Plug applications.",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
