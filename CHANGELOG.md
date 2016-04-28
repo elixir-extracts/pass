@@ -5,6 +5,13 @@
 ### Changed
 
 - Renamed project to Pass since a Passport already exists in Hex.
+- `Pass.Authenticate.delete_session` is now public to make it easier to log out.
+
+### Fixed
+
+- Configuration options are now referenced as functions instead of as module
+  attributes to allow consumers to add or update the configuration options
+  in their config files without having to force mix to recompile this library.
 
 
 ## 0.2.0  (2016-04-23)

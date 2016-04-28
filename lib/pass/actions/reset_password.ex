@@ -19,13 +19,13 @@ defmodule Pass.ResetPassword do
   attribute of the JWT and store it in the data store.
   """
 
-  @config Application.get_env(:pass, __MODULE__, %{})
-  @timeout @config[:timeout] || 60 * 60 * 2
+  defp config,  do: Application.get_env(:pass, __MODULE__, %{})
+  defp timeout, do: config[:timeout] || 60 * 60 * 2
 
   @doc """
   Returns the secret key used to sign the JWT.
   """
-  def key, do: @config[:key]
+  def key, do: config[:key]
 
   @doc """
   Takes in an email address and creates a JWT with the following claims:
@@ -72,7 +72,7 @@ defmodule Pass.ResetPassword do
 
       {:ok, claims} ->
         cond do
-          :os.system_time(:seconds) - claims.iat > @timeout ->
+          :os.system_time(:seconds) - claims.iat > timeout ->
             {:error, "Password reset time period expired"}
           not Pass.DataStore.adapter.vaild_password_reset_token?(claims.sub, claims.jti) ->
             {:error, "Invalid password reset token"}

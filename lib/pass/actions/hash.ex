@@ -4,7 +4,7 @@ defmodule Pass.Hash do
   storage.
   """
 
-  @config Application.get_env(:pass, __MODULE__, %{})
+  defp config, do: Application.get_env(:pass, __MODULE__, %{})
 
   @doc """
   Given a plaintext string it generates a new salt, hashes the string, and
@@ -14,8 +14,8 @@ defmodule Pass.Hash do
   are unpadded, URL-safe, Base 64 encoded values.
   """
   def db_password(password) do
-    blocks = @config[:blocks] || 2
-    cost   = @config[:cost]   || 160_000
+    blocks = config[:blocks] || 2
+    cost   = config[:cost]   || 160_000
     salt   = new_salt
     hash   = password(password, salt, blocks, cost)
 

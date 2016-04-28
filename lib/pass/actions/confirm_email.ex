@@ -15,13 +15,13 @@ defmodule Pass.ConfirmEmail do
   issue, the results would always be the same.
   """
 
-  @config Application.get_env(:pass, __MODULE__, %{})
-  @timeout @config[:timeout] || 60 * 60 * 48
+  defp config,  do: Application.get_env(:pass, __MODULE__, %{})
+  defp timeout, do: config[:timeout] || 60 * 60 * 48
 
   @doc """
   Returns the secret key used to sign the JWT.
   """
-  def key, do: @config[:key]
+  def key, do: config[:key]
 
   @doc """
   Takes in an email address and creates a JWT with the following claims:
@@ -33,7 +33,7 @@ defmodule Pass.ConfirmEmail do
     %{
       sub: email,
       aud: "Pass.ConfirmEmail",
-      exp: :os.system_time(:seconds) + @timeout
+      exp: :os.system_time(:seconds) + timeout
     } |> JsonWebToken.sign(%{key: key})
   end
 

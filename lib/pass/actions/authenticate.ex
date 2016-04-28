@@ -5,8 +5,8 @@ defmodule Pass.Authenticate do
   alias Plug.Conn
   alias Pass.Hash
 
-  @config Application.get_env(:pass, __MODULE__, %{})
-  @session_ttl @config[:session_ttl] || (60 * 60 * 8)
+  defp config, do: Application.get_env(:pass, __MODULE__, %{})
+  defp session_ttl, do: config[:session_ttl] || (60 * 60 * 8)
 
   @doc """
   Sets up and returns a connection with the session data of a user in the data
@@ -30,7 +30,7 @@ defmodule Pass.Authenticate do
   Returns true if the session is still valid, otherwise false.
   """
   def session_valid?(conn) do
-    @session_ttl >= :os.system_time(:seconds) - (
+    session_ttl >= :os.system_time(:seconds) - (
       Conn.get_session(conn, :session_auth_at)  ||
       Conn.get_session(conn, :password_auth_at) ||
       0

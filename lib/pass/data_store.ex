@@ -42,12 +42,11 @@ defmodule Pass.DataStore do
       otherwise it returns false.
   """
 
-  @config Application.get_env(:pass, __MODULE__, %{})
-  @adapter @config[:adapter] || Pass.DataStore.EctoAdapter
-
   @doc """
   A wrapper function that should return the module that has the concrete
   implementations of the abstract data storage functions.
   """
-	def adapter, do: @adapter
+  def adapter, do: config[:adapter] || Pass.DataStore.EctoAdapter
+
+  defp config, do: Application.get_env(:pass, __MODULE__, %{})
 end
