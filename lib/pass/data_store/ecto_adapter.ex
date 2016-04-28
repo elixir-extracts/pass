@@ -1,10 +1,10 @@
-defmodule Passport.DataStore.EctoAdapter do
+defmodule Pass.DataStore.EctoAdapter do
   @moduledoc """
-  Implements the abstract data storage methods that Passport relies on for the
+  Implements the abstract data storage methods that Pass relies on for the
   Ecto library.
   """
 
-  @config Application.get_env(:passport, __MODULE__, %{})
+  @config Application.get_env(:pass, __MODULE__, %{})
   @repo   @config[:repo]
   @schema @config[:schema]
 

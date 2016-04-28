@@ -1,8 +1,8 @@
-defmodule Passport.ResetPasswordTest do
+defmodule Pass.ResetPasswordTest do
   use ExUnit.Case, async: false
-  alias Passport.ResetPassword
-  alias Passport.Test.Repo
-  alias Passport.Test.User
+  alias Pass.ResetPassword
+  alias Pass.Test.Repo
+  alias Pass.Test.User
 
   setup tags do
     unless tags[:async] do
@@ -12,7 +12,7 @@ defmodule Passport.ResetPasswordTest do
     user = Repo.insert! %User{
       username: "ft",
       email: "frank@thomases.com",
-      password: Passport.Hash.db_password("MyPassword1234")
+      password: Pass.Hash.db_password("MyPassword1234")
     }
     {:ok, %{user: user}}
   end
@@ -24,7 +24,7 @@ defmodule Passport.ResetPasswordTest do
     )
 
     assert claims[:sub] == user.email
-    assert claims[:aud] == "Passport.ResetPassword"
+    assert claims[:aud] == "Pass.ResetPassword"
     assert claims[:jti] != nil
     assert :os.system_time(:seconds) - claims[:iat] < 4
   end

@@ -1,23 +1,23 @@
 # Password generation options
-config :passport, Passport.Hash,
+config :pass, Pass.Hash,
   blocks: 2,
   cost: 160_000
 
 # Authentication / session options
-config :passport, Passport.Authenticate,
+config :pass, Pass.Authenticate,
   session_ttl: 60 * 60 * 8
 
 # Data storage adapter
-config :passport, Passport.DataStore,
-  adapter: Passport.DataStore.EctoAdapter
+config :pass, Pass.DataStore,
+  adapter: Pass.DataStore.EctoAdapter
 
 # Ecto data store adapter REQUIRED configuration
-config :passport, Passport.DataStore.EctoAdapter,
+config :pass, Pass.DataStore.EctoAdapter,
   repo:   MyApp.Repo,
   schema: MyApp.User
 
 # Ecto data store adapter optional configuration
-config :passport, Passport.DataStore.EctoAdapter,
+config :pass, Pass.DataStore.EctoAdapter,
   id_field:                   :id,
   identity_field:             :username,
   password_field:             :password,
@@ -26,17 +26,17 @@ config :passport, Passport.DataStore.EctoAdapter,
   email_confirmed_field:      :email_confirmed
 
 # Secret key to use for signing password reset JWTs (Required if using)
-config :passport, Passport.ResetPassword,
+config :pass, Pass.ResetPassword,
     key: "USE_ENV_VARIABLE"
 
 # Reset password options
-config :passport, Passport.ResetPassword,
+config :pass, Pass.ResetPassword,
   timeout: 60 * 60 * 2
 
 # Secret key to use for signing the email confirmation JWTs (Required if using)
-config :passport, Passport.ConfirmEmail,
+config :pass, Pass.ConfirmEmail,
   key: "USE_ENV_VARIABLE"
 
 # Confirm email options
-config :passport, Passport.ResetPassword,
+config :pass, Pass.ResetPassword,
   timeout: 60 * 60 * 48

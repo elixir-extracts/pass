@@ -1,10 +1,10 @@
-defmodule Passport.Hash do
+defmodule Pass.Hash do
   @moduledoc """
   Implements methods for password hashing, verification, and formatting for data
   storage.
   """
 
-  @config Application.get_env(:passport, __MODULE__, %{})
+  @config Application.get_env(:pass, __MODULE__, %{})
 
   @doc """
   Given a plaintext string it generates a new salt, hashes the string, and

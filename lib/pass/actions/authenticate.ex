@@ -1,11 +1,11 @@
-defmodule Passport.Authenticate do
+defmodule Pass.Authenticate do
   @moduledoc """
   Implements methods for adding and validating session state for a connection.
   """
   alias Plug.Conn
-  alias Passport.Hash
+  alias Pass.Hash
 
-  @config Application.get_env(:passport, __MODULE__, %{})
+  @config Application.get_env(:pass, __MODULE__, %{})
   @session_ttl @config[:session_ttl] || (60 * 60 * 8)
 
   @doc """
@@ -14,7 +14,7 @@ defmodule Passport.Authenticate do
   clears out the session.
   """
   def credentials(conn, identity, password) do
-    Passport.DataStore.adapter.get_by_identity(identity)
+    Pass.DataStore.adapter.get_by_identity(identity)
     |> verify_user_credentials(password)
     |> create_session_for(conn)
   end
@@ -26,7 +26,7 @@ defmodule Passport.Authenticate do
     conn |> delete_or_extend_session
   end
 
-  @doc"""
+  @doc """
   Returns true if the session is still valid, otherwise false.
   """
   def session_valid?(conn) do
@@ -35,6 +35,16 @@ defmodule Passport.Authenticate do
       Conn.get_session(conn, :password_auth_at) ||
       0
     )
+  end
+
+  @doc """
+  Clears out the session data. Used when logging out.
+  """
+  def delete_session(%Conn{} = conn) do
+    conn
+    |> Conn.put_session(:user_id         , nil)
+    |> Conn.put_session(:password_auth_at, nil)
+    |> Conn.put_session(:session_auth_at , nil)
   end
 
   defp verify_user_credentials(nil, _), do: nil
@@ -60,12 +70,5 @@ defmodule Passport.Authenticate do
 
   defp extend_session(%Conn{} = conn) do
     conn |> Conn.put_session(:session_auth_at, :os.system_time(:seconds))
-  end
-
-  defp delete_session(%Conn{} = conn) do
-    conn
-    |> Conn.put_session(:user_id         , nil)
-    |> Conn.put_session(:password_auth_at, nil)
-    |> Conn.put_session(:session_auth_at , nil)
   end
 end

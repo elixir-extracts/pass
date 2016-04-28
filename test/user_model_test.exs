@@ -1,14 +1,14 @@
 defmodule Models.UserTest do
   use ExUnit.Case, async: false
 
-  alias Passport.Test.User
+  alias Pass.Test.User
 
   @valid_attrs %{email: "email", username: "uname", password: "some content", emailConfirmed: true, passwordResetToken: "pw token"}
   @invalid_attrs %{}
 
   setup tags do
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Passport.Test.Repo, [])
+      Ecto.Adapters.SQL.restart_test_transaction(Pass.Test.Repo, [])
     end
   end
 

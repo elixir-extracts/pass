@@ -1,10 +1,10 @@
-defmodule Passport.AuthenticateTest do
+defmodule Pass.AuthenticateTest do
 	use ExUnit.Case, async: false
   use Plug.Test
 
-  alias Passport.Authenticate
-  alias Passport.Test.Repo
-  alias Passport.Test.User
+  alias Pass.Authenticate
+  alias Pass.Test.Repo
+  alias Pass.Test.User
 
   @db_user_password "Password12345"
 
@@ -15,7 +15,7 @@ defmodule Passport.AuthenticateTest do
     db_user = Repo.insert! %User{
       username: "ft",
       email: "frank@thomases.com",
-      password: Passport.Hash.db_password(@db_user_password)
+      password: Pass.Hash.db_password(@db_user_password)
     }
     {:ok, %{db_user: db_user}}
   end

@@ -1,13 +1,13 @@
-defmodule Passport.ConfirmEmail do
+defmodule Pass.ConfirmEmail do
   @moduledoc """
   Handles email confirmations by generating, verifying, and redeeming JWTs.
 
-  The idea is that you would use `Passport.ConfirmEmail.generate_token/1` to
+  The idea is that you would use `Pass.ConfirmEmail.generate_token/1` to
   create a JWT that you could then send to the user (probably emailing them a
   link.
 
   When the user accesses your interface to confirm their email, you would use
-  `Passport.ConfirmEmail.redeem_token/1` which would first verify the JWT and
+  `Pass.ConfirmEmail.redeem_token/1` which would first verify the JWT and
   then set the email confirmed field to true.
 
   There's no need to prevent replay attacks since all we are doing is setting a
@@ -15,7 +15,7 @@ defmodule Passport.ConfirmEmail do
   issue, the results would always be the same.
   """
 
-  @config Application.get_env(:passport, __MODULE__, %{})
+  @config Application.get_env(:pass, __MODULE__, %{})
   @timeout @config[:timeout] || 60 * 60 * 48
 
   @doc """
@@ -26,13 +26,13 @@ defmodule Passport.ConfirmEmail do
   @doc """
   Takes in an email address and creates a JWT with the following claims:
     - sub: The email address passed in
-    - aud: "Passport.ConfirmEmail"
+    - aud: "Pass.ConfirmEmail"
     - exp: The time from epoch in seconds when the token expires
   """
   def generate_token(email) do
     %{
       sub: email,
-      aud: "Passport.ConfirmEmail",
+      aud: "Pass.ConfirmEmail",
       exp: :os.system_time(:seconds) + @timeout
     } |> JsonWebToken.sign(%{key: key})
   end
@@ -44,7 +44,7 @@ defmodule Passport.ConfirmEmail do
   def redeem_token(token) do
     case verify_token(token) do
       {:ok, claims} ->
-        Passport.DataStore.adapter.confirm_email(claims.sub)
+        Pass.DataStore.adapter.confirm_email(claims.sub)
         :ok
       error ->
         error
@@ -65,7 +65,7 @@ defmodule Passport.ConfirmEmail do
         cond do
           claims.exp < :os.system_time(:seconds) ->
             {:error, "Email confirmation time period expired"}
-          not Passport.DataStore.adapter.valid_email?(claims.sub) ->
+          not Pass.DataStore.adapter.valid_email?(claims.sub) ->
             {:error, "Invalid email"}
           true ->
             {:ok, claims}

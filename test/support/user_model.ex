@@ -1,4 +1,4 @@
-defmodule Passport.Test.User do
+defmodule Pass.Test.User do
   use Ecto.Schema
   import Ecto
   import Ecto.Changeset
@@ -30,7 +30,7 @@ defmodule Passport.Test.User do
 
   defp hash_password(changeset) do
     if (password = get_change(changeset, :password)) do
-      changeset |> put_change(:password, Passport.Hash.db_password(password))
+      changeset |> put_change(:password, Pass.Hash.db_password(password))
     else
       changeset |> delete_change(:password)
     end

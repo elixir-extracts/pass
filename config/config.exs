@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :passport, key: :value
+#     config :pass, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:passport, :key)
+#     Application.get_env(:pass, :key)
 #
 # Or configure a 3rd-party app:
 #
@@ -34,28 +34,28 @@ if Mix.env == :test do
   config :logger, level: :warn
 
   # Configure your database
-  config :passport, Passport.Test.Repo,
+  config :pass, Pass.Test.Repo,
     adapter: Ecto.Adapters.Postgres,
     username: "postgres",
     password: "postgres",
-    database: "passport_test",
+    database: "pass_test",
     hostname: "localhost",
     pool: Ecto.Adapters.SQL.Sandbox
 
   # Let's keep tests fast with quick passwords
-  config :passport, Passport.Hash,
+  config :pass, Pass.Hash,
     blocks: 1,
     cost: 1
 
-  config :passport, Passport.DataStore.EctoAdapter,
-    repo:   Passport.Test.Repo,
-    schema: Passport.Test.User,
+  config :pass, Pass.DataStore.EctoAdapter,
+    repo:   Pass.Test.Repo,
+    schema: Pass.Test.User,
     password_reset_token_field: :passwordResetToken,
     email_confirmed_field:      :emailConfirmed
 
-  config :passport, Passport.ResetPassword,
+  config :pass, Pass.ResetPassword,
     key: "aaod82fjalv02444nod82fjalv02444n"
 
-  config :passport, Passport.ConfirmEmail,
+  config :pass, Pass.ConfirmEmail,
     key: "aaod82fjalv02444nod82fjalv02444n"
 end

@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased
+
+### Changed
+
+- Renamed project to Pass since a Passport already exists in Hex.
+
+
 ## 0.2.0  (2016-04-23)
 
 ### Added

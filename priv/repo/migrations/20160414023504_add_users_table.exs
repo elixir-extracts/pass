@@ -1,4 +1,4 @@
-defmodule Passport.Repo.Migrations.AddUsersTable do
+defmodule Pass.Repo.Migrations.AddUsersTable do
   use Ecto.Migration
 
   def change do

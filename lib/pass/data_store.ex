@@ -1,7 +1,7 @@
-defmodule Passport.DataStore do
+defmodule Pass.DataStore do
   @moduledoc """
   A wrapper for concrete implementations of the abstract data storage functions
-  used by Passport. Modules wishing to be adapters must implement the following
+  used by Pass. Modules wishing to be adapters must implement the following
   functions:
 
   - confirm_email/1
@@ -42,8 +42,8 @@ defmodule Passport.DataStore do
       otherwise it returns false.
   """
 
-  @config Application.get_env(:passport, __MODULE__, %{})
-  @adapter @config[:adapter] || Passport.DataStore.EctoAdapter
+  @config Application.get_env(:pass, __MODULE__, %{})
+  @adapter @config[:adapter] || Pass.DataStore.EctoAdapter
 
   @doc """
   A wrapper function that should return the module that has the concrete

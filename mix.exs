@@ -1,8 +1,8 @@
-defmodule Passport.Mixfile do
+defmodule Pass.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :passport,
+    [app: :pass,
      version: "0.2.0",
      description: "A simple authentication manager for Plug applications.",
      elixir: "~> 1.2",
@@ -51,7 +51,7 @@ defmodule Passport.Mixfile do
       files: ["lib", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
       maintainers: ["Brad Lindsay"],
       licenses: ["Apache 2.0"],
-      links: %{"GitHub" => "https://github.com/elixir-extracts/passport"}
+      links: %{"GitHub" => "https://github.com/elixir-extracts/pass"}
     ]
   end
 end

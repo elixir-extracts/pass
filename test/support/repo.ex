@@ -1,3 +1,3 @@
-defmodule Passport.Test.Repo do
-  use Ecto.Repo, otp_app: :passport
+defmodule Pass.Test.Repo do
+  use Ecto.Repo, otp_app: :pass
 end

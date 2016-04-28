@@ -1,6 +1,6 @@
-defmodule Passport.Plugs do
+defmodule Pass.Plugs do
   @moduledoc """
-  The `Passport.Plugs` module is meant to be imported into a Phoenix Router
+  The `Pass.Plugs` module is meant to be imported into a Phoenix Router
   module so that its methods can be used as plugs in the router's pipelines.
 
   ## Example
@@ -8,17 +8,17 @@ defmodule Passport.Plugs do
   ```elixir
   defmodule MyApp.Router do
     use MyApp.Web, :router
-    import Passport.Plugs
+    import Pass.Plugs
 
     pipeline :browser do
       plug :fetch_session
 
-      # Passport.Plugs function
+      # Pass.Plugs function
       plug :authenticate_session
     end
 
     pipeline ::require_auth do
-      # Passport.Plugs function
+      # Pass.Plugs function
       plug :require_authentication, redirect_to: "/login"
     end
   end
@@ -27,7 +27,7 @@ defmodule Passport.Plugs do
 
   import Plug.Conn
 
-  alias Passport.Authenticate
+  alias Pass.Authenticate
 
   @doc """
   Extends a valid authentication session or clears that data.
@@ -49,7 +49,7 @@ defmodule Passport.Plugs do
     user = nil
     cond do
       Authenticate.session_valid?(conn) &&
-      (opts[:skip_user_lookup] || (user = Passport.DataStore.adapter.get(get_session(conn, :user_id))) != nil) ->
+      (opts[:skip_user_lookup] || (user = Pass.DataStore.adapter.get(get_session(conn, :user_id))) != nil) ->
         assign(conn, :current_user, user)
       redirect_path = Map.get(opts, :redirect_to) ->
         conn

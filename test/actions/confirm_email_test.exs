@@ -1,8 +1,8 @@
-defmodule Passport.ConfirmEmailTest do
+defmodule Pass.ConfirmEmailTest do
   use ExUnit.Case, async: false
-  alias Passport.ConfirmEmail
-  alias Passport.Test.Repo
-  alias Passport.Test.User
+  alias Pass.ConfirmEmail
+  alias Pass.Test.Repo
+  alias Pass.Test.User
 
   setup tags do
     unless tags[:async] do
@@ -12,7 +12,7 @@ defmodule Passport.ConfirmEmailTest do
     user = Repo.insert! %User{
       username: "ft",
       email: "frank@thomases.com",
-      password: Passport.Hash.db_password("MyPassword1234")
+      password: Pass.Hash.db_password("MyPassword1234")
     }
     {:ok, %{user: user}}
   end
@@ -24,7 +24,7 @@ defmodule Passport.ConfirmEmailTest do
     )
 
     assert claims[:sub] == user.email
-    assert claims[:aud] == "Passport.ConfirmEmail"
+    assert claims[:aud] == "Pass.ConfirmEmail"
     assert claims[:exp] > :os.system_time(:seconds)
   end
 
